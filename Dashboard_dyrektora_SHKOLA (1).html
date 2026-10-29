@@ -1,0 +1,1284 @@
+<!doctype html>
+<html lang="uk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light"><title>SHKOLA · Дашборд директора</title><style>:root {
+  color-scheme: light;
+  --navy: #07182f;
+  --blue: #0757e8;
+  --paper: #f6f7f5;
+  --ink: #273140;
+  --muted: #647185;
+  --line: #dfe5ec;
+  --white: #fff;
+  --pale: #edf3ff;
+  --radius: 14px;
+  --font: "Segoe UI Variable Display", "Segoe UI", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html { min-width: 320px; background: var(--paper); }
+body { margin: 0; color: var(--ink); background: var(--paper); font: 14px/1.45 var(--font); -webkit-font-smoothing: antialiased; }
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; color: inherit; }
+button:disabled { cursor: default; opacity: .42; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #0757e855; outline-offset: 3px; }
+a { color: var(--blue); }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { color: var(--navy); font-weight: 600; letter-spacing: -.025em; }
+h1 { font-size: 27px; line-height: 1.18; }
+h2 { font-size: 18px; line-height: 1.3; }
+h3 { font-size: 15px; line-height: 1.35; }
+svg { vertical-align: middle; flex-shrink: 0; }
+button svg { width: 18px; height: 18px; }
+.hidden { display: none !important; }
+.muted { color: var(--muted); }
+.small { font-size: 12px; line-height: 1.4; }
+.note { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.divider { height: 1px; background: var(--line); border: 0; margin: 17px 0; }
+
+.app-shell { min-height: 100dvh; display: grid; grid-template-columns: 190px minmax(0, 1fr); }
+.sidebar { position: sticky; top: 0; height: 100dvh; min-width: 0; display: flex; flex-direction: column; padding: 24px 14px 18px; background: var(--white); border-right: 1px solid var(--line); }
+.brand { display: block; width: 160px; max-width: 100%; height: auto; margin: 0 auto; }
+.school-label { margin: 25px 10px 23px; color: var(--navy); font-size: 14px; font-weight: 600; line-height: 1.45; }
+.school-label small, .school-label span { display: block; margin-top: 3px; color: var(--muted); font-size: 12px; font-weight: 400; }
+.sidebar nav, .sidebar .nav-list { display: flex; flex-direction: column; gap: 5px; }
+.nav-item { width: 100%; min-height: 42px; display: flex; align-items: center; gap: 11px; padding: 10px 12px; border: 0; border-radius: 9px; color: #536075; background: transparent; text-align: left; text-decoration: none; font-weight: 500; }
+.nav-item svg { width: 18px; height: 18px; opacity: .85; }
+.nav-item:hover { background: #f1f4f8; color: var(--navy); }
+.nav-item.active, .nav-item[aria-current="page"] { background: var(--pale); color: var(--blue); }
+.nav-item .count-badge { margin-left: auto; }
+.sidebar-focus { margin: 25px 0; }
+.sidebar-focus > p { padding: 0 12px; margin-bottom: 6px; }
+.sidebar-focus .nav-item { font-size: 12px; }
+.sidebar-foot { margin-top: auto; padding: 19px 10px 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+.sidebar-foot p + p { margin-top: 7px; }
+.sidebar-foot .notice { display: block; padding: 8px; font-size: 11px; line-height: 1.4; }
+.sidebar-foot .bread-button { display: block; margin-top: 10px; text-align: left; line-height: 1.5; }
+.main { min-width: 0; }
+.topbar { min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 24px; border-bottom: 1px solid var(--line); background: #ffffffd9; }
+.topbar > * { min-width: 0; }
+.page { width: 100%; max-width: 1680px; padding: 24px; margin: 0 auto; min-width: 0; }
+.page-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 18px; margin-bottom: 20px; }
+.page-head > * { min-width: 0; }
+.page-head p, .page-head .sub { color: var(--muted); margin-top: 6px; font-size: 13px; }
+.page-head h1 + .inline-actions { margin-top: 12px; }
+.page-head > div > .inline-actions { margin-bottom: 10px; }
+.page-head > .tabs { margin-bottom: 0; }
+.inline-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.count-badge { min-width: 22px; display: inline-flex; justify-content: center; align-items: center; border-radius: 6px; padding: 2px 6px; color: var(--muted); background: #edf1f6; font-size: 11px; font-weight: 600; line-height: 1.4; font-variant-numeric: tabular-nums; }
+.crumb { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; }
+.bread-button { padding: 4px 0; border: 0; background: transparent; color: var(--blue); text-decoration: none; font-size: inherit; }
+.bread-button:hover { text-decoration: underline; }
+
+.metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 20px; }
+.metric { position: relative; display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; min-width: 0; min-height: 104px; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); color: inherit; text-align: left; }
+button.metric:hover { border-color: #afc0d8; box-shadow: 0 2px 8px #07182f05; }
+.metric.selected { border-color: var(--blue); background: #f8faff; box-shadow: inset 0 3px 0 var(--blue); }
+.metric-value { color: var(--navy); font-size: 30px; font-weight: 600; line-height: 1.12; letter-spacing: -.045em; font-variant-numeric: tabular-nums; }
+.metric.selected .metric-value { color: var(--blue); }
+.metric-value small, .metric-value span { font-size: 15px; font-weight: 400; color: var(--muted); letter-spacing: -.01em; }
+.metric-label { color: #536175; font-size: 12px; font-weight: 500; line-height: 1.35; margin-bottom: 7px; }
+.metric-sub { margin-top: 5px; color: var(--muted); font-size: 11px; line-height: 1.35; }
+
+.workspace { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 18px; align-items: start; min-width: 0; }
+.panel { min-width: 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; min-height: 53px; padding: 14px 17px; border-bottom: 1px solid var(--line); }
+.panel-head h2, .panel-head h3 { font-size: 15px; }
+.panel-head .small { color: var(--muted); }
+.panel > .note, .panel > .notice { margin: 15px 17px; }
+.panel > .mini-bars, .panel > .timeline, .panel > .callout, .panel > .detail-stats { margin: 17px; }
+.panel > .tabs { margin-left: 17px; margin-right: 17px; }
+.panel > .empty { border: 0; }
+.panel > h2, .panel > h3 { padding: 16px 17px 0; }
+.panel > p { margin: 14px 17px; }
+.panel > .button, .panel > .bread-button { margin: 0 17px 17px; }
+.panel > .tag { margin: 0 17px 14px; }
+.panel > .task-line { margin-inline: 17px; }
+.panel > .timeline > .task-line:first-child { padding-top: 0; }
+.filters { display: flex; align-items: center; justify-content: flex-start; flex-wrap: wrap; gap: 8px; padding: 11px 17px; border-bottom: 1px solid var(--line); }
+.filters > .search-input { flex: 1 1 150px; min-width: 120px; max-width: 280px; }
+.page > .filters { margin-bottom: 18px; border: 1px solid var(--line); border-radius: 11px; background: white; }
+.filters .field { margin-bottom: 0; gap: 4px; }
+.filters .field:first-child { flex: 1 1 180px; max-width: 300px; }
+.filters .field .search-input { width: 100%; }
+.filters select { max-width: 180px; }
+.table-wrap { width: 100%; max-width: 100%; min-width: 0; overflow-x: auto; overscroll-behavior-inline: contain; }
+.data-table { border-collapse: collapse; width: 100%; min-width: 670px; font-size: 14px; line-height: 1.4; }
+.data-table th { padding: 10px 12px; background: #fafbfc; border-bottom: 1px solid var(--line); text-align: left; color: var(--muted); font-size: 11px; font-weight: 500; line-height: 1.35; }
+.data-table td { height: 58px; padding: 10px 12px; border-bottom: 1px solid #ebeff4; vertical-align: middle; }
+.data-table .table-title { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; line-height: 1.3; max-height: 2.6em; }
+.data-table tbody td { padding-top: 7px; padding-bottom: 7px; }
+.data-table tbody tr:last-child td { border-bottom: 0; }
+.data-table tbody tr:hover { background: #f8faff; }
+.data-table tr[tabindex], .data-table tr[data-class], .data-table tr.clickable { cursor: pointer; }
+.data-table td:first-child, .data-table th:first-child { padding-left: 17px; }
+.data-table th:first-child { width: 34%; }
+.data-table td:first-child { min-width: 230px; }
+.data-table td:last-child, .data-table th:last-child { padding-right: 17px; }
+.data-table .button, .data-table .icon-button { min-height: 34px; }
+.table-title { display: block; color: var(--navy); font-size: 14px; font-weight: 500; line-height: 1.4; white-space: normal; text-align: left; }
+.cell-sub { display: block; color: var(--muted); margin-top: 3px; font-size: 11px; line-height: 1.35; }
+.result-cell { display: flex; align-items: center; gap: 10px; min-width: 0; color: var(--navy); font-variant-numeric: tabular-nums; white-space: normal; }
+.result-cell > div { min-width: 0; }
+.result-cell > .class-chip { flex-shrink: 0; }
+.result-cell strong { font-size: 14px; font-weight: 600; }
+.result-cell .progress-track { margin-top: 5px; width: 68px; height: 4px; }
+.class-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 45px; padding: 6px 8px; border: 0; border-radius: 8px; background: var(--pale); color: var(--blue); font-size: 13px; font-weight: 600; white-space: nowrap; text-decoration: none; }
+.date { color: var(--muted); font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.overdue { color: var(--navy); font-weight: 600; }
+.overdue::before { content: ""; display: inline-block; width: 5px; height: 5px; margin-right: 5px; border-radius: 50%; background: currentColor; vertical-align: 2px; }
+.owner { color: var(--muted); font-size: 12px; }
+.pager { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 17px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+.pager .inline-actions { gap: 5px; }
+.pager .icon-button, .pager .button { min-width: 34px; min-height: 34px; }
+
+.tag { display: inline-flex; align-items: center; gap: 5px; max-width: 100%; padding: 4px 7px; border: 1px solid transparent; border-radius: 6px; font-size: 11px; font-weight: 500; line-height: 1.3; white-space: nowrap; }
+.tag.review { color: var(--navy); background: #e8edf4; }
+.tag.support { color: var(--blue); background: var(--pale); }
+.tag.recheck { color: var(--blue); background: white; border-color: #b9d0fa; }
+.tag.normal { color: #4c5a6d; background: #f0f3f6; }
+.tag.no_data { color: #788596; background: #f4f5f7; border: 1px dashed #cbd3dd; }
+.action-list { display: flex; flex-direction: column; padding: 0 15px; }
+.action-item { display: block; min-width: 0; width: 100%; padding: 15px 0; text-align: left; background: none; border: 0; border-bottom: 1px solid #ebeff4; color: inherit; text-decoration: none; }
+.action-item:last-child { border-bottom: 0; }
+.action-item:hover h3, button.action-item:hover .table-title { color: var(--blue); }
+.action-item h3 { margin-bottom: 6px; font-size: 14px; }
+.action-item p { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.action-item .tag { margin-bottom: 9px; }
+.action-item .date { display: block; margin-top: 9px; }
+.action-item > .inline-actions { margin-bottom: 10px; }
+.action-item > .bread-button { margin-top: 8px; font-size: 12px; }
+.decision-line { display: flex; align-items: flex-start; justify-content: space-between; gap: 22px; padding: 17px 0; border-bottom: 1px solid #ebeff4; }
+.decision-line:last-child { border-bottom: 0; }
+.decision-line > div { min-width: 0; }
+.decision-line h3 { margin-top: 10px; }
+.decision-line .note { margin-top: 6px; }
+.decision-line-end { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; flex-shrink: 0; }
+.decision-line > .inline-actions { flex: 1; flex-wrap: nowrap; min-width: 0; }
+.decision-line > .inline-actions > div { min-width: 0; }
+.aside-stack { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.aside-stack .panel-head { padding: 13px 15px; }
+.aside-stack .panel-head h2 { font-size: 14px; }
+.aside-stack .notice, .aside-stack .note { font-size: 12px; }
+
+.class-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.class-section { margin: 20px 0; }
+.class-section > h2 { font-size: 18px; }
+.class-card { display: flex; flex-direction: column; gap: 8px; min-width: 0; min-height: 110px; padding: 14px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); text-align: left; color: inherit; text-decoration: none; }
+button.class-card:hover, a.class-card:hover, .class-card.clickable:hover { border-color: #a6bfe6; box-shadow: 0 3px 12px #07182f06; }
+.class-card .class-head { margin: 0; padding: 0; border: 0; }
+.class-card .class-head > strong { font-size: 16px; }
+.class-card .class-chip { min-width: 49px; }
+.class-card h3 { font-size: 14px; }
+.class-card .cell-sub { font-size: 12px; }
+.class-card .tag { align-self: flex-start; margin-top: auto; }
+.class-head { display: flex; justify-content: space-between; align-items: center; gap: 15px; min-width: 0; margin-bottom: 17px; }
+.class-head h1, .class-head h2 { margin-bottom: 3px; }
+.class-head .class-chip { font-size: 18px; min-width: 61px; padding: 10px; }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; min-width: 0; }
+.detail-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 18px; align-items: start; min-width: 0; }
+.detail-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 18px; }
+.stat { min-width: 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 11px; background: white; }
+.stat strong, .stat .metric-value { display: block; color: var(--navy); font-size: 25px; line-height: 1.2; font-weight: 600; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+.stat > .muted, .stat > span, .stat > small { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; }
+.stat strong .muted { display: inline; margin-top: 0; font-size: 14px; font-weight: 400; letter-spacing: 0; }
+.tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 17px; }
+.tabs button { min-height: 39px; padding: 9px 13px; border: 0; border-bottom: 2px solid transparent; background: none; color: var(--muted); font-size: 13px; }
+.tabs button.active, .tabs button[aria-selected="true"], .tabs button[aria-pressed="true"] { color: var(--blue); border-bottom-color: var(--blue); font-weight: 600; }
+.timeline { list-style: none; margin: 0; padding: 0; }
+.timeline li { position: relative; display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; padding: 11px 0; border-bottom: 1px solid #edf0f4; font-size: 13px; }
+.timeline li:last-child { border-bottom: 0; }
+.timeline .date { padding-top: 1px; }
+.timeline p, .timeline .cell-sub { margin-top: 4px; font-size: 12px; color: var(--muted); }
+.timeline .task-line { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 14px; }
+.mini-bars { display: grid; gap: 13px; }
+.bar-row { display: grid; grid-template-columns: minmax(72px, 100px) minmax(0, 1fr) 52px; gap: 10px; align-items: center; font-size: 12px; }
+.bar-row > :last-child { text-align: right; font-variant-numeric: tabular-nums; }
+.progress-track { position: relative; min-width: 0; height: 8px; background: #e9eef5; border-radius: 4px; overflow: hidden; }
+.progress-fill { display: block; height: 100%; width: 0; max-width: 100%; background: var(--blue); border-radius: inherit; }
+.callout { padding: 14px 15px; background: var(--pale); border: 1px solid #d4e1fa; border-radius: 10px; color: #334e78; font-size: 13px; line-height: 1.5; }
+.callout strong { color: var(--navy); }
+.task-line { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; padding: 13px 0; border-bottom: 1px solid #edf0f4; }
+.task-line:last-child { border-bottom: 0; }
+.task-line p { margin-top: 5px; color: var(--muted); font-size: 12px; }
+.task-line .owner { flex-shrink: 0; }
+
+.button { min-height: 37px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--ink); text-decoration: none; white-space: nowrap; font-size: 13px; font-weight: 500; line-height: 1.2; }
+.button:hover { border-color: #b6c4d8; background: #f9fbff; }
+.button.primary { border-color: var(--blue); background: var(--blue); color: white; }
+.button.primary:hover { background: #064cce; border-color: #064cce; }
+.button.ghost { border-color: transparent; background: transparent; color: var(--blue); }
+.button.ghost:hover { background: var(--pale); }
+.button.ghost.selected { border-color: #c5d7f7; background: var(--pale); color: var(--blue); }
+.icon-button { min-width: 37px; min-height: 37px; display: inline-flex; align-items: center; justify-content: center; padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: white; color: var(--muted); }
+.icon-button:hover { background: #f6f8fc; color: var(--navy); }
+.search-input, select, .field input, .field textarea { min-height: 37px; max-width: 100%; padding: 8px 11px; color: var(--ink); background: white; border: 1px solid #d8e0ea; border-radius: 8px; font-size: 13px; line-height: 1.35; }
+.search-input::placeholder, .field input::placeholder, .field textarea::placeholder { color: #8994a4; }
+.search-input { width: 210px; }
+select { padding-right: 28px; }
+.notice { padding: 12px 14px; border: 1px solid #d6e1f5; border-radius: 9px; background: #f4f7fd; color: #425c83; font-size: 13px; line-height: 1.5; }
+.empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; min-height: 210px; padding: 30px 20px; color: var(--muted); text-align: center; border: 1px dashed #cfd8e5; border-radius: var(--radius); background: #fafbfc; }
+.empty strong, .empty h3 { color: var(--navy); font-size: 16px; font-weight: 500; }
+.empty p { max-width: 340px; font-size: 13px; }
+.empty .button { margin-top: 5px; }
+
+.modal-overlay { position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px; background: #07182f68; backdrop-filter: blur(3px); }
+.modal { width: min(620px, 100%); max-height: 88dvh; min-width: 0; overflow-y: auto; padding: 24px; border: 1px solid #d6dfeb; border-radius: 18px; background: white; box-shadow: 0 24px 90px #07182f38; }
+.modal > .panel-head { margin: -5px 0 18px; padding: 0 0 15px; }
+.modal > h2 { margin-bottom: 18px; }
+.modal p { line-height: 1.6; }
+.modal p + p { margin-top: 12px; }
+.modal .inline-actions { justify-content: flex-end; margin-top: 20px; }
+.form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+.field { min-width: 0; display: flex; flex-direction: column; gap: 6px; margin-bottom: 13px; color: var(--ink); font-size: 12px; font-weight: 500; }
+.field input, .field select, .field textarea { width: 100%; font-weight: 400; }
+.field textarea { min-height: 95px; resize: vertical; }
+.field small { color: var(--muted); font-weight: 400; font-size: 11px; }
+.evidence-steps .stat strong { font-size: 18px; line-height: 1.4; overflow-wrap: anywhere; }
+.help-list { margin: 0; padding-left: 23px; }
+.help-list li { padding-left: 3px; margin: 11px 0; line-height: 1.6; }
+.toast { position: fixed; z-index: 150; left: 50%; bottom: 20px; transform: translateX(-50%); max-width: calc(100vw - 32px); padding: 12px 18px; border: 1px solid #2c4361; border-radius: 10px; background: var(--navy); color: white; font-size: 13px; line-height: 1.5; text-align: center; box-shadow: 0 7px 28px #07182f30; pointer-events: none; }
+
+@media (min-width: 1600px) {
+  .page { padding: 28px 32px; }
+  .topbar { padding-inline: 32px; }
+  .workspace { grid-template-columns: minmax(0, 1fr) 290px; gap: 22px; }
+  .data-table { font-size: 14px; }
+  .data-table td { height: 62px; }
+  .table-title { font-size: 14px; }
+  .cell-sub { font-size: 12px; }
+  .action-item h3 { font-size: 15px; }
+  .class-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+@media (min-width: 1151px) and (max-width: 1249px) {
+  .class-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@media (max-width: 1150px) {
+  .workspace, .detail-layout { grid-template-columns: minmax(0, 1fr); }
+  .aside-stack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metrics { gap: 10px; }
+  .metric { padding: 15px 13px; }
+  .metric-value { font-size: 28px; }
+  .class-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .app-shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar { position: relative; height: auto; padding: 14px 16px 0; border-right: 0; border-bottom: 1px solid var(--line); }
+  .brand { width: 137px; margin: 0 0 12px; }
+  .school-label, .sidebar-foot { display: none; }
+  .sidebar-focus { display: none; }
+  .sidebar nav, .sidebar .nav-list { display: flex; flex-direction: row; gap: 5px; overflow-x: auto; max-width: 100%; padding-bottom: 10px; }
+  .nav-item { width: auto; min-height: 36px; flex-shrink: 0; gap: 7px; padding: 8px 10px; font-size: 12px; white-space: nowrap; }
+  .nav-item svg { width: 15px; height: 15px; }
+  .topbar { min-height: 57px; padding: 10px 16px; gap: 10px; flex-wrap: wrap; }
+  .topbar .button { min-height: 34px; font-size: 12px; }
+  .topbar .crumb { font-size: 11px; }
+  .page { padding: 19px 16px 24px; }
+  .page-head { gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+  h1 { font-size: 24px; }
+  .page-head p, .page-head .sub { font-size: 12px; }
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin-bottom: 16px; }
+  .metric { min-height: 99px; padding: 13px; border-radius: 11px; }
+  .metric-value { font-size: 28px; }
+  .metric-label { font-size: 11px; }
+  .metric-sub { font-size: 11px; }
+  .workspace, .detail-layout { gap: 15px; }
+  .panel { border-radius: 12px; }
+  .panel-head { padding: 13px; gap: 10px; }
+  .panel-head h2, .panel-head h3 { font-size: 14px; }
+  .filters { padding: 10px 12px; gap: 7px; }
+  .filters > .search-input { flex-basis: 150px; max-width: none; }
+  .filters .field, .filters .field:first-child { flex: 1 1 calc(50% - 4px); min-width: 0; max-width: none; align-self: flex-start; }
+  .filters select { flex: none; width: 100%; height: 37px; min-height: 37px; max-width: 100%; }
+  .data-table { min-width: 700px; }
+  .pager { padding: 10px 12px; gap: 8px; font-size: 11px; }
+  .pager .button, .pager .icon-button { min-width: 31px; min-height: 34px; padding-inline: 8px; }
+  .aside-stack { grid-template-columns: minmax(0, 1fr); }
+  .class-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .class-card { min-height: 110px; padding: 13px; gap: 8px; }
+  .class-card h3 { font-size: 13px; }
+  .class-card .tag { font-size: 11px; white-space: normal; }
+  .split { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .detail-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat { padding: 13px; }
+  .stat strong, .stat .metric-value { font-size: 23px; }
+  .tabs { gap: 0; }
+  .tabs button { font-size: 12px; padding-inline: 10px; }
+  .task-line { gap: 9px; }
+  .task-line .owner { max-width: 90px; text-align: right; font-size: 11px; }
+  .decision-line { flex-direction: column; gap: 14px; }
+  .decision-line-end { align-items: flex-start; width: 100%; }
+  .decision-line-end .inline-actions { width: 100%; }
+  .decision-line-end .button.primary { margin-left: auto; }
+  .decision-line > .inline-actions { flex-wrap: wrap; }
+  .decision-line > .inline-actions > div { flex: 1 1 170px; }
+  .modal-overlay { padding: 14px; }
+  .modal { padding: 20px; border-radius: 14px; max-height: 92dvh; }
+  .form-row { grid-template-columns: minmax(0, 1fr); gap: 0; }
+}
+
+@media (max-width: 390px) {
+  .page { padding-inline: 12px; }
+  .topbar { padding-inline: 12px; }
+  .class-grid { gap: 8px; }
+  .class-card { padding: 11px; }
+  .class-card .class-head { align-items: flex-start; gap: 7px; }
+  .class-card .class-head > .small { font-size: 11px; }
+  .class-card .class-chip { min-width: 39px; font-size: 12px; }
+  .bar-row { grid-template-columns: 70px minmax(0, 1fr) 45px; gap: 7px; font-size: 11px; }
+  .pager { flex-wrap: wrap; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .nav-item, .button, .icon-button, .metric, .class-card { transition: background .14s ease, border-color .14s ease, box-shadow .14s ease; }
+  .progress-fill { transition: width .2s ease; }
+}
+
+@media print {
+  .app-shell { display: block; }
+  .sidebar, .topbar, .filters, .pager, .modal-overlay, .icon-button, .button { display: none !important; }
+  .page { max-width: none; padding: 0; }
+  .workspace, .detail-layout { display: block; }
+  .aside-stack { margin-top: 18px; }
+  .panel, .metric, .class-card { break-inside: avoid; box-shadow: none; }
+  .table-wrap { overflow: visible; }
+  .data-table { min-width: 0; font-size: 11px; }
+  .data-table td { height: auto; }
+  .tag, .class-chip, .progress-fill { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+.mobile-demo{display:none}
+@media(max-width:760px){.sidebar .mobile-demo{display:block;position:absolute;top:22px;right:16px;font-size:11px;color:var(--muted);white-space:nowrap}}
+</style></head>
+<body><div class="app-shell" id="directorApp">
+ <aside class="sidebar">
+  <img class="brand" src="data:image/png;base64,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" alt="SHKOLA — інфраструктура спроможної школи">
+  <span class="mobile-demo">Прототип · умовні дані</span><div class="school-label">Школа № 7<span class="muted small">Кабінет директора</span></div>
+  <nav aria-label="Розділи дашборда"><button class="nav-item active" data-view="overview"><span data-icon="overview"></span>Огляд школи</button><button class="nav-item" data-view="classes"><span data-icon="classes"></span>Класи<span class="count-badge" id="classNavCount">25</span></button><button class="nav-item" data-view="actions"><span data-icon="tasks"></span>Рішення<span class="count-badge" id="decisionNavCount"></span></button><button class="nav-item" data-view="checks"><span data-icon="calendar"></span>Перевірки</button></nav>
+  <div class="sidebar-focus"><p class="muted small">У роботі</p><button class="nav-item small" data-open="fractions-7a">7-А · Математика<span aria-hidden="true">↗</span></button><button class="nav-item small" id="secondFocus"></button></div>
+  <div class="sidebar-foot"><span class="notice">Прототип · умовні дані</span><button class="bread-button small" data-help>Як демонструвати ↗</button></div>
+ </aside>
+ <div class="main">
+  <header class="topbar"><div class="crumb" id="breadcrumbs">Навчальні результати / Огляд школи</div><div class="inline-actions"><span class="small muted">Стан на 28.10.2026</span><button class="icon-button" id="fullBtn" aria-label="На весь екран" title="На весь екран · F" data-icon="expand"></button></div></header>
+  <main class="page" id="pageContent"><div class="empty">Завантаження огляду школи…</div></main>
+ </div>
+ <div class="modal-overlay hidden" id="modalOverlay"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><header class="panel-head"><h2 id="modalTitle"></h2><button class="icon-button" id="modalClose" aria-label="Закрити" data-icon="close"></button></header><div id="modalBody"></div></section></div>
+ <div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+</div>
+<noscript><p>Для роботи прототипу відкрийте файл у браузері з увімкненим JavaScript.</p></noscript>
+<script>/* Synthetic demonstration data. No school-wide success percentage is defined. */
+window.SCHOOL_DATA = {
+  "asOf": "2026-10-28",
+  "school": "Школа № 7",
+  "dataKind": "synthetic",
+  "demoNotice": "Усі дані, результати, строки й обставини створено для прототипа. Це не звіт реального закладу.",
+  "classes": [
+    {
+      "id": "1-А",
+      "grade": 1,
+      "size": 26
+    },
+    {
+      "id": "1-Б",
+      "grade": 1,
+      "size": 25
+    },
+    {
+      "id": "2-А",
+      "grade": 2,
+      "size": 28
+    },
+    {
+      "id": "2-Б",
+      "grade": 2,
+      "size": 27
+    },
+    {
+      "id": "3-А",
+      "grade": 3,
+      "size": 27
+    },
+    {
+      "id": "3-Б",
+      "grade": 3,
+      "size": 26
+    },
+    {
+      "id": "4-А",
+      "grade": 4,
+      "size": 25
+    },
+    {
+      "id": "4-Б",
+      "grade": 4,
+      "size": 27
+    },
+    {
+      "id": "5-А",
+      "grade": 5,
+      "size": 27
+    },
+    {
+      "id": "5-Б",
+      "grade": 5,
+      "size": 28
+    },
+    {
+      "id": "5-В",
+      "grade": 5,
+      "size": 24
+    },
+    {
+      "id": "6-А",
+      "grade": 6,
+      "size": 29
+    },
+    {
+      "id": "6-Б",
+      "grade": 6,
+      "size": 26
+    },
+    {
+      "id": "6-В",
+      "grade": 6,
+      "size": 25
+    },
+    {
+      "id": "7-А",
+      "grade": 7,
+      "size": 28
+    },
+    {
+      "id": "7-Б",
+      "grade": 7,
+      "size": 26
+    },
+    {
+      "id": "7-В",
+      "grade": 7,
+      "size": 24
+    },
+    {
+      "id": "8-А",
+      "grade": 8,
+      "size": 25
+    },
+    {
+      "id": "8-Б",
+      "grade": 8,
+      "size": 24
+    },
+    {
+      "id": "9-А",
+      "grade": 9,
+      "size": 24
+    },
+    {
+      "id": "9-Б",
+      "grade": 9,
+      "size": 25
+    },
+    {
+      "id": "10-А",
+      "grade": 10,
+      "size": 23
+    },
+    {
+      "id": "10-Б",
+      "grade": 10,
+      "size": 22
+    },
+    {
+      "id": "11-А",
+      "grade": 11,
+      "size": 24
+    },
+    {
+      "id": "11-Б",
+      "grade": 11,
+      "size": 23
+    }
+  ],
+  "records": [
+    {
+      "id": "obs-1a",
+      "classId": "1-А",
+      "subject": "Навчання грамоти",
+      "skill": "Пояснює зміст почутого короткого повідомлення",
+      "date": "2026-10-27",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "obs-1b",
+      "classId": "1-Б",
+      "subject": "Математика",
+      "skill": "Порівнює кількості на предметній моделі",
+      "date": "2026-10-26",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "obs-2a",
+      "classId": "2-А",
+      "subject": "Українська мова",
+      "skill": "Послідовно переказує коротку подію",
+      "date": "2026-10-27",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "obs-2b",
+      "classId": "2-Б",
+      "subject": "Математика",
+      "skill": "Пояснює вибір дії в простій задачі",
+      "date": "2026-10-23",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "obs-3a",
+      "classId": "3-А",
+      "subject": "Я досліджую світ",
+      "skill": "Пояснює висновок за результатами спостереження",
+      "date": "2026-10-26",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "obs-3b",
+      "classId": "3-Б",
+      "subject": "Українська мова",
+      "skill": "Визначає тему невеликого тексту",
+      "date": "2026-10-22",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "obs-4a",
+      "classId": "4-А",
+      "subject": "Математика",
+      "skill": "Пояснює спосіб перевірки обчислення",
+      "date": "2026-10-27",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "obs-4b",
+      "classId": "4-Б",
+      "subject": "Українська мова",
+      "skill": "Добирає заголовок відповідно до змісту тексту",
+      "date": "2026-10-26",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "primary": true,
+      "evidenceType": "check",
+      "decisionDue": "2026-10-27",
+      "paired": [],
+      "id": "reading-5a",
+      "classId": "5-А",
+      "subject": "Українська мова",
+      "skill": "Визначає головну думку й відрізняє її від деталі",
+      "date": "2026-10-22",
+      "assessed": 26,
+      "met": 17,
+      "state": "review",
+      "nextDate": "2026-10-29",
+      "owner": "Учитель української мови",
+      "teacherAction": "Зіставити три типові роботи та пояснення учнів; розвести труднощі читання й вибору головної думки.",
+      "directorAction": "Узгодити короткий спільний аналіз з учителем початкової школи замість окремого нового звіту.",
+      "criterion": "Головну думку сформульовано й підтверджено змістом щонайменше у 2 з 3 коротких текстів; авторський критерій прикладу.",
+      "reason": "Потрібен час для узгодження наступної дії між педагогами.",
+      "need": 9
+    },
+    {
+      "primary": true,
+      "evidenceType": "check",
+      "decisionDue": null,
+      "paired": [
+        {
+          "date": "2026-10-08",
+          "met": 18,
+          "total": 26
+        },
+        {
+          "date": "2026-10-21",
+          "met": 21,
+          "total": 26
+        }
+      ],
+      "id": "fractions-5b",
+      "classId": "5-Б",
+      "subject": "Математика",
+      "skill": "Порівнює дроби з однаковими знаменниками та пояснює вибір",
+      "date": "2026-10-21",
+      "assessed": 27,
+      "met": 22,
+      "state": "support",
+      "nextDate": "2026-11-06",
+      "owner": "Учитель математики",
+      "teacherAction": "Для п’яти учнів продовжити порівняння на моделі та поступово прибрати підказки.",
+      "directorAction": "Зберегти домовлений час професійної співпраці; додаткового рішення зараз не потрібно.",
+      "criterion": "Правильне порівняння з поясненням у 3 з 4 нових пар дробів; авторський критерій прикладу.",
+      "need": 5
+    },
+    {
+      "id": "planned-5v",
+      "classId": "5-В",
+      "subject": "Українська мова",
+      "skill": "Обирає потрібну інформацію з короткого тексту",
+      "date": null,
+      "assessed": null,
+      "met": null,
+      "state": "no_data",
+      "nextDate": "2026-11-09",
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Уточнити, які наявні роботи або спостереження доречно додати.",
+      "directorAction": "Узгодити потребу й мінімально достатній спосіб фіксації.",
+      "criterion": "Критерій числової перевірки ще не погоджено.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "not_recorded",
+      "evidenceNote": "Жовтневих свідчень у прототипі не додано. Це не нульовий результат і не вимога провести новий тест."
+    },
+    {
+      "primary": true,
+      "evidenceType": "check",
+      "decisionDue": null,
+      "paired": [
+        {
+          "date": "2026-10-09",
+          "met": 20,
+          "total": 27
+        },
+        {
+          "date": "2026-10-23",
+          "met": 24,
+          "total": 27
+        }
+      ],
+      "id": "proportion-6a",
+      "classId": "6-А",
+      "subject": "Математика",
+      "skill": "Складає та розв’язує пропорцію за умовою",
+      "date": "2026-10-23",
+      "assessed": 28,
+      "met": 25,
+      "state": "recheck",
+      "nextDate": "2026-11-03",
+      "owner": "Учитель математики",
+      "teacherAction": "Перевірити самостійне виконання на новому контексті; для трьох учнів уточнити залишкові труднощі.",
+      "directorAction": "Повернутися до узгодженого результату; не вводити окремої додаткової звітності.",
+      "criterion": "Правильна пропорція, розв’язок і перевірка у 2 з 3 задач; авторський критерій прикладу.",
+      "need": 3
+    },
+    {
+      "primary": true,
+      "evidenceType": "check",
+      "decisionDue": null,
+      "paired": [],
+      "id": "coordinates-6b",
+      "classId": "6-Б",
+      "subject": "Математика",
+      "skill": "Позначає число на координатній прямій з урахуванням одиничного відрізка",
+      "date": "2026-10-20",
+      "assessed": 25,
+      "met": 18,
+      "state": "support",
+      "nextDate": "2026-10-28",
+      "owner": "Учитель математики",
+      "teacherAction": "Порівняти прямі з різним одиничним відрізком; учні пояснюють масштаб до позначення числа.",
+      "directorAction": "На домовленій зустрічі уточнити, як іде дія та чи достатньо наявних матеріалів.",
+      "criterion": "Правильно визначено одиничний відрізок і позначено число у 4 з 5 нових завдань; авторський критерій прикладу.",
+      "need": 7
+    },
+    {
+      "id": "obs-6v",
+      "classId": "6-В",
+      "subject": "Англійська мова",
+      "skill": "Виокремлює ключову інформацію в короткому усному повідомленні",
+      "date": "2026-10-26",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "primary": true,
+      "evidenceType": "check",
+      "decisionDue": null,
+      "paired": [
+        {
+          "date": "2026-10-07",
+          "met": 19,
+          "total": 27
+        },
+        {
+          "date": "2026-10-21",
+          "met": 24,
+          "total": 27
+        }
+      ],
+      "id": "fractions-7a",
+      "classId": "7-А",
+      "subject": "Математика",
+      "skill": "Самостійно знаходить дріб від числа та пояснює розв’язання",
+      "date": "2026-10-21",
+      "assessed": 28,
+      "met": 25,
+      "state": "support",
+      "nextDate": "2026-11-04",
+      "owner": "Учитель математики",
+      "teacherAction": "Продовжити підтримку U03 і U08; окремо перевірити пояснення нового сигналу U28.",
+      "directorAction": "Перевірити навантаження на фіксацію даних і забезпечити повернення 4 листопада.",
+      "criterion": "Щонайменше 2 з 3 за кожним із чотирьох мікрокроків і за самостійними задачами; умовний робочий критерій цього кейсу.",
+      "caseNote": "У початковій групі U01–U08 критерій виконали 6 із 8. U09 має окремий пізній старт. У U28 — новий сигнал.",
+      "need": 3
+    },
+    {
+      "primary": true,
+      "evidenceType": "check",
+      "decisionDue": null,
+      "paired": [
+        {
+          "date": "2026-10-10",
+          "met": 17,
+          "total": 24
+        },
+        {
+          "date": "2026-10-23",
+          "met": 20,
+          "total": 24
+        }
+      ],
+      "id": "sources-7b",
+      "classId": "7-Б",
+      "subject": "Історія",
+      "skill": "Підтверджує висновок свідченнями з двох джерел",
+      "date": "2026-10-23",
+      "assessed": 25,
+      "met": 21,
+      "state": "support",
+      "nextDate": "2026-11-07",
+      "owner": "Учитель історії",
+      "teacherAction": "Для чотирьох учнів розвести переказ джерела та аргумент до висновку на коротких прикладах.",
+      "directorAction": "Додаткового організаційного рішення не потрібно; цикл веде вчитель.",
+      "criterion": "Висновок має доречну опору на обидва джерела у 2 з 3 нових завдань; авторський критерій прикладу.",
+      "need": 4
+    },
+    {
+      "id": "planned-7v",
+      "classId": "7-В",
+      "subject": "Математика",
+      "skill": "Пояснює перехід між різними поданнями залежності",
+      "date": null,
+      "assessed": null,
+      "met": null,
+      "state": "no_data",
+      "nextDate": "2026-11-10",
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Уточнити, які наявні роботи або спостереження доречно додати.",
+      "directorAction": "Узгодити потребу й мінімально достатній спосіб фіксації.",
+      "criterion": "Критерій числової перевірки ще не погоджено.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "not_recorded",
+      "evidenceNote": "Жовтневих свідчень у прототипі не додано. Це не нульовий результат і не вимога провести новий тест."
+    },
+    {
+      "primary": true,
+      "evidenceType": "check",
+      "decisionDue": null,
+      "paired": [
+        {
+          "date": "2026-10-07",
+          "met": 20,
+          "total": 25
+        },
+        {
+          "date": "2026-10-21",
+          "met": 23,
+          "total": 25
+        }
+      ],
+      "id": "phenomena-8a",
+      "classId": "8-А",
+      "subject": "Хімія",
+      "skill": "Розрізняє фізичні та хімічні явища за ознаками",
+      "date": "2026-10-21",
+      "assessed": 25,
+      "met": 23,
+      "state": "recheck",
+      "nextDate": "2026-11-05",
+      "owner": "Учитель хімії",
+      "teacherAction": "Перевірити перенесення пояснення на нові приклади; з двома учнями уточнити ознаки вибору.",
+      "directorAction": "Повернутися до короткого підсумку в погоджений строк.",
+      "criterion": "Вибір обґрунтовано спостережуваною ознакою у 3 з 4 нових прикладів; авторський критерій прикладу.",
+      "need": 2
+    },
+    {
+      "primary": true,
+      "evidenceType": "check",
+      "decisionDue": "2026-10-26",
+      "paired": [],
+      "id": "argument-8b",
+      "classId": "8-Б",
+      "subject": "Українська мова",
+      "skill": "Будує письмовий аргумент: теза, доказ і пояснення зв’язку",
+      "date": "2026-10-23",
+      "assessed": 23,
+      "met": 16,
+      "state": "review",
+      "nextDate": "2026-10-30",
+      "owner": "Учитель української мови",
+      "teacherAction": "Зіставити зразки за рубрикою та уточнити, де бракує доказу, а де пояснення зв’язку.",
+      "directorAction": "Організувати коротке узгодження рубрики з колегою; переглянути обсяг паралельних письмових робіт.",
+      "criterion": "У тексті є теза, доречний доказ і пояснений зв’язок; виконано принаймні 3 з 4 погоджених ознак рубрики. Авторський критерій прикладу.",
+      "reason": "Не погоджено спільне тлумачення рубрики та наступну дію.",
+      "need": 7
+    },
+    {
+      "primary": true,
+      "evidenceType": "check",
+      "decisionDue": "2026-10-29",
+      "paired": [],
+      "id": "graph-9a",
+      "classId": "9-А",
+      "subject": "Фізика",
+      "skill": "Читає графік залежності величин і пояснює фізичний зміст ділянки",
+      "date": "2026-10-24",
+      "assessed": 24,
+      "met": 17,
+      "state": "review",
+      "nextDate": "2026-11-02",
+      "owner": "Учитель фізики",
+      "teacherAction": "Розвести труднощі читання масштабу й пояснення фізичного змісту на двох коротких прикладах.",
+      "directorAction": "Узгодити спільний перегляд робіт учителями фізики та математики в наявний час співпраці.",
+      "criterion": "Величини й масштаб прочитано правильно, зміст ділянки пояснено у 2 з 3 нових графіків; авторський критерій прикладу.",
+      "reason": "Потрібне узгодження підтримки між двома предметами.",
+      "need": 7
+    },
+    {
+      "primary": true,
+      "evidenceType": "check",
+      "decisionDue": null,
+      "paired": [
+        {
+          "date": "2026-10-08",
+          "met": 23,
+          "total": 25
+        },
+        {
+          "date": "2026-10-22",
+          "met": 25,
+          "total": 25
+        }
+      ],
+      "id": "frequency-9b",
+      "classId": "9-Б",
+      "subject": "Математика",
+      "skill": "Читає таблицю спостережень і обчислює відносну частоту",
+      "date": "2026-10-22",
+      "assessed": 25,
+      "met": 25,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель математики",
+      "teacherAction": "Продовжити звичайну роботу та зворотний зв’язок у нових контекстах.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Таблицю інтерпретовано правильно та обчислення пояснено у 4 з 5 пунктів; авторський критерій прикладу.",
+      "need": 0
+    },
+    {
+      "id": "obs-10a",
+      "classId": "10-А",
+      "subject": "Історія",
+      "skill": "Розрізняє позицію автора та підтверджений факт",
+      "date": "2026-10-27",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "obs-10b",
+      "classId": "10-Б",
+      "subject": "Англійська мова",
+      "skill": "Підтримує коротку аргументовану розмову за темою",
+      "date": "2026-10-22",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "obs-11a",
+      "classId": "11-А",
+      "subject": "Українська література",
+      "skill": "Обґрунтовує власне тлумачення твору",
+      "date": "2026-10-26",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "planned-11b",
+      "classId": "11-Б",
+      "subject": "Історія",
+      "skill": "Порівнює пояснення події в різних джерелах",
+      "date": null,
+      "assessed": null,
+      "met": null,
+      "state": "no_data",
+      "nextDate": "2026-11-11",
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Уточнити, які наявні роботи або спостереження доречно додати.",
+      "directorAction": "Узгодити потребу й мінімально достатній спосіб фіксації.",
+      "criterion": "Критерій числової перевірки ще не погоджено.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": true,
+      "evidenceType": "not_recorded",
+      "evidenceNote": "Жовтневих свідчень у прототипі не додано. Це не нульовий результат і не вимога провести новий тест."
+    },
+    {
+      "id": "extra-1a-math",
+      "classId": "1-А",
+      "subject": "Математика",
+      "skill": "Пояснює спосіб групування предметів",
+      "date": "2026-10-23",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": false,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "id": "extra-3b-world",
+      "classId": "3-Б",
+      "subject": "Я досліджую світ",
+      "skill": "Розрізняє спостереження та припущення",
+      "date": "2026-10-27",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": false,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "primary": false,
+      "evidenceType": "check",
+      "decisionDue": null,
+      "paired": [],
+      "id": "extra-4b-math",
+      "classId": "4-Б",
+      "subject": "Математика",
+      "skill": "Обирає дію та перевіряє відповідь у простій задачі",
+      "date": "2026-10-24",
+      "assessed": 27,
+      "met": 27,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель початкової школи",
+      "teacherAction": "Продовжити звичайну навчальну роботу з різними умовами задач.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Коректний вибір дії, розв’язання та перевірка у 2 з 3 задач; авторський критерій прикладу.",
+      "need": 0
+    },
+    {
+      "id": "extra-7a-language",
+      "classId": "7-А",
+      "subject": "Українська мова",
+      "skill": "Добирає доречне підтвердження до власної думки",
+      "date": "2026-10-27",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": false,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    },
+    {
+      "primary": false,
+      "evidenceType": "check",
+      "decisionDue": null,
+      "paired": [],
+      "id": "extra-10b-language",
+      "classId": "10-Б",
+      "subject": "Українська мова",
+      "skill": "Редагує логічні зв’язки між частинами висловлення",
+      "date": "2026-10-23",
+      "assessed": 22,
+      "met": 22,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель української мови",
+      "teacherAction": "Продовжити звичайний зворотний зв’язок на власних текстах учнів.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Виправлення логічного зв’язку пояснено у 3 з 4 фрагментів; авторський критерій прикладу.",
+      "need": 0
+    },
+    {
+      "id": "extra-11a-math",
+      "classId": "11-А",
+      "subject": "Математика",
+      "skill": "Пояснює вибір способу розв’язання задачі",
+      "date": "2026-10-27",
+      "assessed": null,
+      "met": null,
+      "state": "normal",
+      "nextDate": null,
+      "owner": "Учитель / учителька предмета",
+      "need": null,
+      "teacherAction": "Використовувати наявні спостереження та учнівські роботи для звичайного зворотного зв’язку.",
+      "directorAction": "Окремого організаційного рішення не потрібно.",
+      "criterion": "Якісне спостереження за виконанням; числовий поріг не встановлювали.",
+      "paired": [],
+      "decisionDue": null,
+      "primary": false,
+      "evidenceType": "observation",
+      "evidenceNote": "Є датовані навчальні спостереження. Окремої числової перевірки не планували."
+    }
+  ]
+};
+
+</script><script>window.CASE7A_SCORES=[["U01", "A", "T0", 1, 1, 3, 2, 1], ["U01", "A", "T1", 2, 2, 3, 3, 1], ["U01", "A", "T2", 3, 3, 3, 3, 3], ["U02", "A", "T0", 1, 2, 3, 3, 1], ["U02", "A", "T1", 1, 2, 3, 3, 2], ["U02", "A", "T2", 2, 3, 3, 3, 2], ["U03", "A", "T0", 0, 1, 2, 2, 0], ["U03", "A", "T1", 1, 2, 2, 2, 1], ["U03", "A", "T2", 1, 2, 3, 3, 1], ["U04", "A", "T0", 1, 1, 2, 3, 1], ["U04", "A", "T1", 2, 2, 3, 3, 2], ["U04", "A", "T2", 2, 3, 3, 3, 3], ["U05", "B", "T0", 3, 3, 1, 3, 1], ["U05", "B", "T1", 3, 3, 2, 3, 2], ["U05", "B", "T2", 3, 3, 3, 3, 3], ["U06", "B", "T0", 3, 2, 1, 3, 1], ["U06", "B", "T1", 3, 3, 2, 3, 2], ["U06", "B", "T2", 3, 3, 3, 3, 2], ["U07", "B", "T0", 2, 3, 0, 3, 0], ["U07", "B", "T1", 3, 3, 1, 3, 1], ["U07", "B", "T2", 3, 3, 2, 3, 2], ["U08", "B", "T0", 3, 3, 1, 2, 1], ["U08", "B", "T1", 3, 3, 1, 3, 1], ["U08", "B", "T2", 3, 3, 1, 3, 1], ["U09", "C", "T0C", 2, 2, 1, 2, 1], ["U09", "C", "T1", 2, 2, 2, 2, 1], ["U09", "C", "T2", 3, 3, 2, 3, 2], ["U10", "R", "T0", 2, 3, 3, 2, 2], ["U10", "R", "T2", 3, 3, 3, 3, 2], ["U11", "R", "T0", 3, 3, 3, 2, 2], ["U11", "R", "T2", 3, 3, 3, 3, 3], ["U12", "R", "T0", 2, 2, 2, 3, 2], ["U12", "R", "T2", 3, 3, 2, 3, 2], ["U13", "R", "T0", 3, 2, 2, 3, 2], ["U13", "R", "T2", 3, 3, 3, 3, 3], ["U14", "R", "T0", 2, 3, 2, 3, 2], ["U14", "R", "T2", 3, 3, 3, 3, 2], ["U15", "R", "T0", 3, 3, 3, 3, 3], ["U15", "R", "T2", 3, 3, 2, 3, 3], ["U16", "R", "T0", 2, 2, 3, 2, 3], ["U16", "R", "T2", 3, 3, 3, 3, 2], ["U17", "R", "T0", 3, 2, 3, 2, 3], ["U17", "R", "T2", 3, 3, 3, 3, 3], ["U18", "R", "T0", 2, 3, 2, 2, 3], ["U18", "R", "T2", 3, 3, 2, 3, 2], ["U19", "R", "T0", 3, 3, 2, 2, 3], ["U19", "R", "T2", 3, 3, 3, 3, 3], ["U20", "R", "T0", 2, 2, 2, 3, 2], ["U20", "R", "T2", 3, 3, 3, 3, 2], ["U21", "R", "T0", 3, 2, 3, 3, 2], ["U21", "R", "T2", 3, 3, 2, 3, 3], ["U22", "R", "T0", 2, 3, 3, 3, 2], ["U22", "R", "T2", 3, 3, 3, 3, 2], ["U23", "R", "T0", 3, 3, 3, 3, 2], ["U23", "R", "T2", 3, 3, 3, 3, 3], ["U24", "R", "T0", 2, 2, 2, 2, 2], ["U24", "R", "T2", 3, 3, 2, 3, 2], ["U25", "R", "T0", 3, 2, 2, 2, 3], ["U25", "R", "T2", 3, 3, 3, 3, 3], ["U26", "R", "T0", 2, 3, 2, 2, 3], ["U26", "R", "T2", 3, 3, 3, 3, 2], ["U27", "R", "T0", 3, 3, 3, 2, 3], ["U27", "R", "T2", 3, 3, 2, 3, 3], ["U28", "R", "T0", 2, 2, 3, 3, 3], ["U28", "R", "T2", 3, 3, 3, 3, 1]];</script><script>(()=>{'use strict';
+const root=document.getElementById('directorApp'),$=id=>document.getElementById(id),ORIGINAL=window.SCHOOL_DATA;
+if(!ORIGINAL||!Array.isArray(ORIGINAL.records))throw Error('Демонстраційний набір даних відсутній');
+let model=JSON.parse(JSON.stringify(ORIGINAL));
+let state={view:'overview',grade:'all',subject:'all',status:'attention',q:'',page:1,recordId:null,classId:null,detailTab:'summary',returnView:'overview',checksMode:'upcoming',actionsMode:'open'};
+const ASOF=model.asOf,END='2026-11-04',PAGE_SIZE=5;
+const ST={review:'Потрібне рішення',support:'Підтримка триває',recheck:'Повторна перевірка',agreed:'Дію погоджено',normal:'У роботі вчителя',no_data:'Немає даних'};
+const icons={overview:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',classes:'<path d="M3 21V7l9-4 9 4v14M8 21v-5h8v5M7 9h2m6 0h2M7 12h2m6 0h2"/>',tasks:'<path d="m4 7 2 2 4-4M13 7h7M4 14l2 2 4-4M13 14h7M4 21h16"/>',calendar:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18M7 14h2m4 0h2m-8 3h2"/>',expand:'<path d="M8 3H3v5m13-5h5v5m0 8v5h-5M3 16v5h5"/>',close:'<path d="m6 6 12 12M18 6 6 18"/>'};
+function mountIcons(){root.querySelectorAll('[data-icon]').forEach(el=>el.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+icons[el.dataset.icon]+'</svg>')}
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').toLowerCase().replace(/[‐‑–—\s-]/g,'').replace(/a/g,'а').replace(/b/g,'б').replace(/v/g,'в');
+const cls=id=>model.classes.find(c=>c.id===id),rec=id=>model.records.find(r=>r.id===id),hasData=r=>Number.isInteger(r.assessed)&&Number.isInteger(r.met)&&!!r.date;
+const hasEvidence=r=>!!r.date&&r.date>='2026-10-01'&&r.date<=ASOF;
+const ndate=s=>s?new Date(s+'T12:00:00Z').toLocaleDateString('uk-UA',{day:'numeric',month:'short',timeZone:'UTC'}).replace('.',''):'—';
+const displaySkill=r=>r.id==='fractions-7a'?'Дріб від числа':r.skill;
+const nums=(n,d)=>`${n}<span class="muted small"> / ${d}</span>`;
+const overdue=r=>!!r.decisionDue&&r.decisionDue<ASOF;
+const natural=(a,b)=>cls(a.classId).grade-cls(b.classId).grade||a.classId.localeCompare(b.classId,'uk')||a.subject.localeCompare(b.subject,'uk');
+function metrics(records=model.records){const classIds=new Set(records.map(r=>r.classId));return {review:records.filter(r=>r.state==='review').length,support:records.filter(r=>['support','recheck'].includes(r.state)).length,returning:records.filter(r=>r.nextDate&&r.nextDate>=ASOF&&r.nextDate<=END).length,withData:[...classIds].filter(id=>records.some(r=>r.classId===id&&hasEvidence(r))).length,classTotal:classIds.size,overdue:records.filter(overdue).length}}
+function scoped(){return model.records.filter(r=>(state.grade==='all'||cls(r.classId).grade===+state.grade)&&(state.subject==='all'||r.subject===state.subject)&&(!state.q||norm(r.classId+' '+r.subject+' '+r.skill).includes(norm(state.q))))}
+function filtered(){return scoped().filter(r=>state.status==='all'||(state.status==='attention'&&r.state!=='normal')||(state.status==='supporting'&&['support','recheck'].includes(r.state))||(state.status==='returning'&&r.nextDate>=ASOF&&r.nextDate<=END)||r.state===state.status).sort(natural)}
+function tag(r){return `<span class="tag ${r.state}">${ST[r.state]}</span>`}
+function filterControls(status=true){const subjects=[...new Set(model.records.map(r=>r.subject))].sort((a,b)=>a.localeCompare(b,'uk'));return `<div class="filters"><label class="field"><span class="small muted">Клас або результат</span><input class="search-input" id="searchField" data-filter="q" placeholder="Наприклад, 7-А" value="${esc(state.q)}"></label><label class="field"><span class="small muted">Паралель</span><select data-filter="grade"><option value="all">Усі класи</option>${Array.from({length:11},(_,i)=>`<option value="${i+1}" ${state.grade==i+1?'selected':''}>${i+1} класи</option>`).join('')}</select></label><label class="field"><span class="small muted">Предмет</span><select data-filter="subject"><option value="all">Усі предмети</option>${subjects.map(s=>`<option ${state.subject===s?'selected':''}>${esc(s)}</option>`).join('')}</select></label>${status?`<label class="field"><span class="small muted">Стан роботи</span><select data-filter="status">${[['attention','Відкриті питання'],['all','Усі результати'],['review','Потрібне рішення'],['supporting','Підтримка триває'],['returning','Повернення до 4.11'],['no_data','Немає даних'],['normal','У роботі вчителя']].map(([v,l])=>`<option value="${v}" ${state.status===v?'selected':''}>${l}</option>`).join('')}</select></label>`:''}<button class="button ghost small" data-reset-filters>Скинути</button></div>`}
+function kpis(){const m=metrics(scoped());return `<div class="metrics">${[
+ ['review','До спільного розгляду',m.review,'потрібне рішення керівника'],
+ ['supporting','Підтримка триває',m.support,'погоджені цикли роботи'],
+ ['returning','Повернення до 4 листопада',m.returning,'заплановані контрольні точки'],
+ ['no_data','Класи зі свідченнями',m.withData+'<span class="muted small"> / '+m.classTotal+'</span>',(m.classTotal-m.withData)+' класів без свідчень за жовтень']
+ ].map(([f,l,v,s])=>`<button class="metric ${state.status===f?'selected':''}" data-kpi="${f}"><span class="metric-label">${l}</span><strong class="metric-value">${v}</strong><span class="metric-sub">${s}<span aria-hidden="true"> ↗</span></span></button>`).join('')}</div>`}
+function resultTable(list,paginate=true){const max=Math.max(1,Math.ceil(list.length/PAGE_SIZE));state.page=Math.min(state.page,max);const rows=paginate?list.slice((state.page-1)*PAGE_SIZE,state.page*PAGE_SIZE):list;return `<div class="table-wrap"><table class="data-table"><thead><tr><th>Клас і навчальний результат</th><th>Перевірено</th><th>Виконали</th><th>Потребують уваги</th><th>Стан роботи</th><th>Повернення</th></tr></thead><tbody>${rows.map(r=>{const c=cls(r.classId);return `<tr data-row="${esc(r.id)}"><td><div class="result-cell"><button class="class-chip" data-class="${esc(c.id)}">${c.id}</button><div><button class="bread-button table-title" aria-label="${esc(r.skill)}" title="${esc(r.skill)}" data-open="${esc(r.id)}">${esc(displaySkill(r))}</button><span class="cell-sub">${esc(r.subject)} · ${r.date?ndate(r.date):'свідчень ще немає'}</span></div></div></td><td>${hasData(r)?nums(r.assessed,c.size):r.evidenceType==='observation'?'<span class="small muted">Спостереження</span>':'<span class="muted">—</span>'}<div class="progress-track" aria-label="Охоплення перевіркою: ${r.assessed??'даних немає'} з ${c.size}"><div class="progress-fill" style="width:${hasData(r)?r.assessed/c.size*100:0}%"></div></div></td><td>${hasData(r)?nums(r.met,r.assessed):'<span class="muted">—</span>'}</td><td>${hasData(r)?`<span class="need-value">${r.need}</span><span class="muted small"> із ${r.assessed}</span>`:'<span class="muted small">'+(r.evidenceType==='observation'?'Якісні свідчення':'Не визначено')+'</span>'}</td><td>${tag(r)}</td><td><button class="bread-button date" data-open="${esc(r.id)}">${ndate(r.nextDate)}<span aria-hidden="true"> ↗</span></button></td></tr>`}).join('')||'<tr><td colspan="6"><div class="empty">За цими умовами результатів немає.<br><button class="bread-button" data-reset-filters>Скинути фільтри</button></div></td></tr>'}</tbody></table></div>${paginate?`<div class="pager"><span class="small muted">${list.length?((state.page-1)*PAGE_SIZE+1)+'–'+Math.min(state.page*PAGE_SIZE,list.length):0} із ${list.length} результатів</span><div class="inline-actions"><button class="button ghost small" data-page="-1" ${state.page===1?'disabled':''}>← Назад</button><span class="small muted">${state.page} / ${max}</span><button class="button ghost small" data-page="1" ${state.page===max?'disabled':''}>Далі →</button></div></div>`:''}`}
+function queue(){const list=scoped().filter(r=>r.state==='review'||overdue(r)).sort((a,b)=>(a.decisionDue||'9999').localeCompare(b.decisionDue||'9999'));return `<div class="aside-stack"><section class="panel"><div class="panel-head"><h2>Потребує рішення</h2><span class="count-badge">${list.length}</span></div><div class="action-list">${list.slice(0,3).map(r=>`<article class="action-item"><div class="inline-actions"><span class="class-chip static">${r.classId}</span><span class="small ${overdue(r)?'overdue':'muted'}">${overdue(r)?'Прострочено · ':''}${ndate(r.decisionDue)}</span></div><h3>${esc(r.directorAction)}</h3><div class="owner">${esc(r.decisionOwner||'Директор')}</div><button class="bread-button" data-open="${r.id}">Відкрити ситуацію ↗</button></article>`).join('')||'<div class="empty small">Відкритих рішень у цьому виборі немає.</div>'}</div><button class="button ghost" data-view="actions">Усі рішення →</button></section><section class="panel"><div class="panel-head"><h2>Найближче повернення</h2></div>${scoped().filter(r=>r.nextDate>=ASOF).sort((a,b)=>a.nextDate.localeCompare(b.nextDate)).slice(0,2).map(r=>`<div class="task-line"><span class="date">${ndate(r.nextDate)}</span><button class="bread-button" data-open="${r.id}"><strong>${r.classId}</strong> · ${esc(r.subject)}</button></div>`).join('')||'<p class="small muted">Немає запланованих дат.</p>'}</section></div>`}
+function overview(){return `<div class="page-head"><div><h1>Огляд школи</h1><p class="muted">${model.classes.length} класів · ${model.classes.reduce((s,c)=>s+c.size,0)} учнів · обрані результати за жовтень</p></div><button class="button" data-view="classes">Усі класи →</button></div>${filterControls()}${kpis()}<div class="workspace"><section class="panel"><div class="panel-head"><h2>Навчальні результати</h2><span class="small muted">Критерій визначено для кожного результату</span></div>${resultTable(filtered())}</section>${queue()}</div>`}
+function classesView(){const classes=model.classes.filter(c=>(state.grade==='all'||c.grade===+state.grade)&&(!state.q||norm(c.id).includes(norm(state.q))));return `<div class="page-head"><div><h1>Класи</h1><p class="muted">Уся школа · ${model.classes.length} класів · ${model.classes.reduce((n,c)=>n+c.size,0)} учнів</p></div></div><div class="filters"><label class="field"><span class="small muted">Знайти клас</span><input class="search-input" id="searchField" data-filter="q" placeholder="Наприклад, 7-А" value="${esc(state.q)}"></label><label class="field"><span class="small muted">Паралель</span><select data-filter="grade"><option value="all">Усі паралелі</option>${Array.from({length:11},(_,i)=>`<option value="${i+1}" ${state.grade==i+1?'selected':''}>${i+1} класи</option>`).join('')}</select></label><button class="button ghost" data-reset-filters>Скинути</button></div><div class="class-grid">${classes.map(c=>{const rs=model.records.filter(r=>r.classId===c.id),data=rs.filter(hasEvidence),open=rs.filter(r=>r.state!=='normal'),next=rs.map(r=>r.nextDate).filter(Boolean).sort()[0];return `<button class="class-card" data-class="${c.id}"><div class="class-head"><strong>${c.id}</strong><span class="small muted">${c.size} учнів</span></div><p class="small">${data.length?'Джерел свідчень: '+data.length:'Немає жовтневих свідчень'}</p><div class="inline-actions"><span class="tag ${!data.length?'no_data':open.length?'support':'normal'}">${!data.length?'Оновити дані':open.length?'У роботі: '+open.length:'Без спільного розгляду'}</span><span class="small muted">${next?ndate(next):'—'}</span></div></button>`}).join('')||'<div class="empty">Класів за цими умовами немає.</div>'}</div>`}
+function classView(){const c=cls(state.classId),rs=model.records.filter(r=>r.classId===c.id);return `<div class="page-head"><div><h1>${c.id} клас</h1><p class="muted">${c.size} учнів · ${rs.length} обраних навчальних результатів</p></div><button class="button" data-back>← Назад</button></div><section class="panel"><div class="panel-head"><h2>Останні навчальні свідчення</h2><span class="small muted">Поточний стан за кожною перевіркою</span></div>${resultTable(rs,false)}</section><p class="note">Рядок описує конкретний навчальний результат, а не загальну успішність класу.</p>`}
+function bars(r,cohort='paired'){let list=r.paired||[],title='Ті самі учні';if(r.id==='fractions-7a'&&cohort==='target'){list=[{date:'2026-10-07',met:0,total:8},{date:'2026-10-13',met:3,total:8},{date:'2026-10-21',met:6,total:8}];title='Початкова вісімка'}if(list.length<2)return '<div class="empty small">Повторної перевірки ще немає.<br>Динаміку покажемо після повернення до результату.</div>';return `<p class="small muted chart-caption">Виконали критерій · ${title}</p><div class="mini-bars">${list.map((p,i)=>`<div class="bar-row"><div class="small">${i===0?'До':i===list.length-1?'Після':'Під час'}<span class="cell-sub">${ndate(p.date)}</span></div><div class="progress-track"><div class="progress-fill" style="width:${p.met/p.total*100}%"></div></div><strong>${p.met}<span class="muted small"> / ${p.total}</span></strong></div>`).join('')}</div><p class="small muted">${r.id==='fractions-7a'?(cohort==='target'?'U01–U08 на всіх трьох перевірках.':'U09 має окремий старт; у це порівняння не входить.'):'Однакова когорта й критерій у межах цього умовного прикладу.'}</p>`}
+function caseView(){const r=rec(state.recordId),c=cls(r.classId);return `<div class="page-head"><div><div class="inline-actions"><button class="class-chip" data-class="${r.classId}">${r.classId}</button><span class="muted small">${esc(r.subject)}</span>${tag(r)}</div><h1>${esc(displaySkill(r))}</h1><p class="muted">${r.date?'Останні свідчення: '+ndate(r.date):'Спершу потрібно отримати достатні свідчення'} · ${esc(r.owner)}</p></div><button class="button" data-back>← Назад</button></div><div class="detail-stats"><div class="stat"><span class="muted small">Перевірено учнів</span><strong>${hasData(r)?nums(r.assessed,c.size):'—'}</strong></div><div class="stat"><span class="muted small">Виконали критерій</span><strong>${hasData(r)?nums(r.met,r.assessed):'—'}</strong></div><div class="stat"><span class="muted small">Потребують уваги</span><strong>${hasData(r)?nums(r.need,r.assessed):'Не визначено'}</strong></div><div class="stat"><span class="muted small">Немає роботи</span><strong>${hasData(r)?c.size-r.assessed:'—'}</strong></div></div><div class="tabs" role="tablist" aria-label="Розділи ситуації">${[['summary','Результат'],['action','Дія та умови'],['history','Історія']].map(([v,l])=>`<button role="tab" aria-selected="${state.detailTab===v}" data-tab="${v}" class="${state.detailTab===v?'active':''}">${l}</button>`).join('')}</div>${state.detailTab==='summary'?caseSummary(r):state.detailTab==='action'?caseAction(r):caseHistory(r)}`}
+function caseSummary(r){return `<div class="detail-layout"><section class="panel"><div class="panel-head"><h2>Що змінилося</h2>${r.id==='fractions-7a'?`<div class="inline-actions"><button class="button ghost small ${state.cohort!=='target'?'selected':''}" data-cohort="paired">Ті самі 27</button><button class="button ghost small ${state.cohort==='target'?'selected':''}" data-cohort="target">Початкова вісімка</button></div>`:''}</div>${bars(r,state.cohort)}<div class="divider"></div><h3>Що перевіряємо</h3><p class="note">${esc(r.criterion)}</p><button class="bread-button" data-evidence="${r.id}">Підстави рішення та роботи ↗</button></section><aside class="aside-stack"><section class="panel"><div class="panel-head"><h2>Наступний крок</h2><span class="date">${ndate(r.nextDate)}</span></div><p>${r.id==='fractions-7a'?'Продовжити підтримку двох учнів. Уточнити один новий сигнал.':esc(r.teacherAction)}</p><p class="owner">${esc(r.owner)}</p><button class="button primary" data-tab="action">Відкрити дію →</button></section>${r.id==='fractions-7a'?'<section class="panel"><h3>Три питання в роботі</h3><div class="task-line"><strong>U03</strong><span>Визначення цілого</span></div><div class="task-line"><strong>U08</strong><span>Кількість частин</span></div><div class="task-line"><strong>U28</strong><span>Новий сигнал</span></div></section>':''}<section class="panel"><p class="small muted">${hasData(r)?(cls(r.classId).size-r.assessed)+' учнів без роботи на цій перевірці.':hasEvidence(r)?'Є якісні спостереження. Числової перевірки не проводили.':'Відсутність даних не є невиконанням критерію.'}</p></section></aside></div>`}
+function caseAction(r){return `<div class="detail-layout"><section class="panel"><div class="panel-head"><h2>${r.state==='review'?'Пропонована робота':'Дія та умови'}</h2>${tag(r)}</div><div class="task-line"><span class="class-chip static">Учитель</span><div><h3>Що змінюється в навчанні</h3><p class="note">${esc(r.teacherAction)}</p><span class="owner">${esc(r.owner)}</span></div></div><div class="task-line"><span class="class-chip static">Директор</span><div><h3>Які умови потрібні</h3><p class="note">${esc(r.directorAction)}</p><span class="owner">${esc(r.decisionOwner||'Директор')}</span></div></div><div class="task-line"><span class="class-chip static">Повернення</span><div><h3>${ndate(r.nextDate)}</h3><p class="note">Нові доречні завдання за тим самим результатом; уточнення подальшої підтримки.</p></div></div></section><aside class="aside-stack"><section class="panel"><div class="panel-head"><h2>${r.state==='review'?'Потрібне рішення':'Домовленість'}</h2></div><p>${esc(r.directorAction)}</p><p class="note">${r.decisionDue?'Погодити до '+ndate(r.decisionDue):'Повернутися '+ndate(r.nextDate)}</p>${overdue(r)?'<span class="tag review overdue">Строк погодження минув</span>':''}<button class="button primary" data-agree="${r.id}">${r.state==='review'?'Погодити дію':'Змінити домовленість'}</button><p class="small muted">Зміна діє лише в цьому сеансі прототипу.</p></section></aside></div>`}
+function caseHistory(r){if(r.id==='fractions-7a')return `<section class="panel"><div class="panel-head"><h2>Від початкового сигналу до поточного стану</h2></div><div class="timeline">${[['07.10','Початковий сигнал','19 із 27 виконали критерій; 8 потребували уточнення. Однієї роботи немає.'],['08.10','Пояснення перевірено','Дві тимчасові групи по 4 учні: ціле й рівні частини; кількість частин.'],['09–12.10','Адресна підтримка','Учителька змінює вправи; директор організовує спільний аналіз і прибирає дубльований звіт.'],['13.10','Проміжна перевірка','3 із початкових 8 виконали критерій. Увесь клас у цій точці не перевірявся.'],['21.10','Повторна перевірка','Клас: 25 із 28. Початкова вісімка: 6 із 8. U09 з пізнім стартом виконав критерій; U28 — новий сигнал.'],[ndate(r.nextDate),'Наступне повернення','Заплановано перевірку збереження й перенесення; результату ще немає.']].map(([d,t,p])=>`<article class="task-line"><span class="date">${d}</span><div><h3>${t}</h3><p class="note">${p}</p></div></article>`).join('')}</div></section>`;return `<section class="panel"><h2>Історія перевірок</h2>${(r.paired||[]).length?`<div class="timeline">${r.paired.map(p=>`<div class="task-line"><span class="date">${ndate(p.date)}</span><span>${p.met} із ${p.total} виконали критерій</span></div>`).join('')}</div>`:'<p class="note">Попередніх співвідносних перевірок у прикладі немає.</p>'}<div class="task-line"><span class="date">${ndate(r.nextDate)}</span><span>${r.nextDate?'Наступне повернення заплановано.':'Дату повернення не визначено.'}</span></div></section>`}
+function actionsView(){const rows=scoped().filter(r=>(state.actionsMode==='all'&&['review','agreed','support','recheck'].includes(r.state))||r.state==='review'||overdue(r)).sort((a,b)=>(a.decisionDue||'9999').localeCompare(b.decisionDue||'9999'));return `<div class="page-head"><div><h1>Рішення директора</h1><p class="muted">Організаційні умови, відповідальні та строки</p></div><div class="tabs"><button data-action-mode="open" class="${state.actionsMode==='open'?'active':''}">Потребують погодження</button><button data-action-mode="all" class="${state.actionsMode==='all'?'active':''}">Усі домовленості</button></div></div>${filterControls(false)}<section class="panel"><div class="action-list">${rows.map(r=>`<article class="decision-line"><div><div class="inline-actions"><button class="class-chip" data-class="${r.classId}">${r.classId}</button><span class="small muted">${esc(r.subject)}</span>${tag(r)}</div><h3>${esc(r.directorAction)}</h3><p class="note">${esc(r.skill)} · ${esc(r.decisionOwner||'Директор')}</p></div><div class="decision-line-end"><span class="date ${overdue(r)?'overdue':''}">${r.decisionDue?(overdue(r)?'Прострочено · ':'До ')+ndate(r.decisionDue):'Повернення '+ndate(r.nextDate)}</span><div class="inline-actions"><button class="button ghost" data-open="${r.id}">Ситуація ↗</button><button class="button primary" data-agree="${r.id}">${r.state==='review'?'Погодити':'Змінити'}</button></div></div></article>`).join('')||'<div class="empty">Непогоджених рішень у цьому виборі немає.</div>'}</div></section>`}
+function checksView(){const list=scoped().filter(r=>state.checksMode==='all'||(r.nextDate&&r.nextDate>=ASOF&&r.nextDate<=END)).sort((a,b)=>(a.nextDate||'9999').localeCompare(b.nextDate||'9999'));return `<div class="page-head"><div><h1>Повернення до результату</h1><p class="muted">План перевірок і розмов із педагогами</p></div><div class="tabs"><button data-check-mode="upcoming" class="${state.checksMode==='upcoming'?'active':''}">До 4 листопада</button><button data-check-mode="all" class="${state.checksMode==='all'?'active':''}">Усі дати</button></div></div>${filterControls(false)}<section class="panel"><div class="action-list">${list.map(r=>`<article class="decision-line"><div class="inline-actions"><span class="date">${ndate(r.nextDate)}</span><button class="class-chip" data-class="${r.classId}">${r.classId}</button><div><button class="bread-button table-title" data-open="${r.id}">${esc(displaySkill(r))}</button><span class="cell-sub">${esc(r.subject)} · ${esc(r.owner)}</span></div></div><span class="tag ${r.state}">${r.nextDate?'Заплановано':'Дату не погоджено'}</span></article>`).join('')||'<div class="empty">У вибраний період повернень немає.</div>'}</div></section>`}
+function pageRender(){return state.view==='overview'?overview():state.view==='classes'?classesView():state.view==='class'?classView():state.view==='case'?caseView():state.view==='actions'?actionsView():checksView()}
+function render(){const focus=document.activeElement?.id,position=focus==='searchField'?document.activeElement.selectionStart:null;$('pageContent').innerHTML=pageRender();root.querySelectorAll('[data-view].nav-item').forEach(b=>{const active=b.dataset.view===state.view||(b.dataset.view==='classes'&&['class','case'].includes(state.view));b.classList.toggle('active',active);if(active)b.setAttribute('aria-current','page');else b.removeAttribute('aria-current')});$('breadcrumbs').innerHTML=['case','class'].includes(state.view)?`<button class="bread-button" data-view="overview">Школа</button><span> / </span><button class="bread-button" data-class="${esc(state.classId)}">${esc(state.classId)}</button>${state.view==='case'?'<span> / '+esc(rec(state.recordId).subject)+'</span>':''}`:'Навчальні результати / '+({overview:'Огляд школи',classes:'Класи',actions:'Рішення',checks:'Перевірки'}[state.view]||'');$('decisionNavCount').textContent=metrics().review;$('classNavCount').textContent=model.classes.length;const secondary=model.records.find(r=>r.classId==='8-Б'&&r.state!=='normal')||model.records.find(r=>r.id!=='fractions-7a');$('secondFocus').textContent=secondary.classId+' · '+secondary.subject;$('secondFocus').dataset.open=secondary.id;if(focus==='searchField'&&$('searchField')){$('searchField').focus();$('searchField').setSelectionRange(position,position)} }
+function navigate(view){state.history=[];state.view=view;state.page=1;state.recordId=null;state.classId=null;render();window.scrollTo(0,0)}
+function pushRoute(){state.history=state.history||[];state.history.push({view:state.view,recordId:state.recordId,classId:state.classId,detailTab:state.detailTab,page:state.page})}
+function openRecord(id){const r=rec(id);if(!r)return;pushRoute();if(!['case','class'].includes(state.view))state.returnView=state.view;state.view='case';state.recordId=id;state.classId=r.classId;state.detailTab='summary';state.cohort='paired';render();window.scrollTo(0,0)}
+function openClass(id){if(!cls(id))return;pushRoute();if(!['class','case'].includes(state.view))state.returnView=state.view;state.view='class';state.classId=id;render();window.scrollTo(0,0)}
+function showModal(title,html){$('modalTitle').textContent=title;$('modalBody').innerHTML=html;$('modalOverlay').classList.remove('hidden');$('modalClose').focus();document.body.style.overflow='hidden'}
+function closeModal(){$('modalOverlay').classList.add('hidden');document.body.style.overflow=''}
+function toast(text){$('toast').textContent=text;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2200)}
+function evidence(r){if(r.id!=='fractions-7a'){showModal('Підстави рішення',`<p class="note">${esc(r.criterion)}</p><div class="task-line"><strong>Свідчення</strong><span>${hasData(r)?r.assessed+' перевірених робіт; '+r.met+' виконали критерій.':hasEvidence(r)?'Є якісні спостереження; числової перевірки немає.':'Навчальних свідчень ще недостатньо.'}</span></div><div class="task-line"><strong>Наступна дія</strong><span>${esc(r.teacherAction)}</span></div><p class="small muted">Пояснення потреби уточнює вчитель за роботами й розмовою. Дані цього прототипу умовні.</p>`);return}const score=window.CASE7A_SCORES||[],get=(id,st)=>score.find(x=>x[0]===id&&x[2]===st);showModal('7-А · Педагогічні підстави',`<p class="callout">¾ від 20 = 15. Відповідь «5» — підстава уточнити міркування учня.</p><div class="detail-stats evidence-steps">${[['Ціле','20'],['Одна частина','20 : 4 = 5'],['Кількість частин','3'],['Величина й перевірка','5 × 3 = 15']].map(([t,v])=>`<div class="stat"><span class="small muted">${t}</span><strong>${v}</strong></div>`).join('')}</div><p class="note">Учителька перевірила пояснення за роботами та розмовою. Дві тимчасові групи по 4 учні: ціле й рівні частини; кількість частин. Директор забезпечив час спільного аналізу.</p><div class="table-wrap"><table class="data-table"><thead><tr><th>Учень · T2</th><th>Ціле</th><th>Одна частина</th><th>Кількість</th><th>Величина</th><th>Самостійно</th></tr></thead><tbody>${['U03','U08','U28'].map(id=>`<tr><td>${id}</td>${get(id,'T2').slice(3).map(v=>`<td>${v} / 3</td>`).join('')}</tr>`).join('')}</tbody></table></div><p class="small muted">На 21 жовтня: U03/U08 продовжують підтримку, U28 — новий сигнал. Критерій прикладу: кожен крок і самостійні задачі щонайменше 2 із 3; це авторська робоча межа.</p>`)}
+function agreeForm(r){showModal('Погодити організаційну дію',`<form id="agreeForm" data-record="${r.id}"><p class="note">${r.classId} · ${esc(r.subject)} · ${esc(r.skill)}</p><label class="field">Що забезпечуємо<textarea name="action" required rows="3">${esc(r.directorAction)}</textarea></label><div class="form-row"><label class="field">Відповідальний за умови<select name="owner">${['Директор','Заступник директора','Керівник професійної спільноти'].map(o=>`<option ${o===(r.decisionOwner||'Директор')?'selected':''}>${o}</option>`).join('')}</select></label><label class="field">Дата повернення<input name="date" type="date" min="${ASOF}" value="${r.nextDate&&r.nextDate>=ASOF?r.nextDate:'2026-11-04'}" required></label></div><p class="small muted">Педагогічну дію веде ${esc(r.owner.toLowerCase())}. Зміни зберігаються лише в поточному сеансі прототипу.</p><div class="inline-actions"><button class="button primary" type="submit">Погодити дію</button><button class="button ghost" type="button" data-close>Скасувати</button></div></form>`)}
+function approve(id,values){const r=rec(id);if(!r)throw Error('Немає ситуації');if(!values.action.trim()||!values.date||values.date<ASOF)throw Error('Потрібна дія й коректна майбутня дата');r.directorAction=values.action.trim();r.decisionOwner=values.owner;r.nextDate=values.date;r.decisionDue=null;if(r.state==='review')r.state='agreed';return r}
+function help(){showModal('Маршрут демонстрації · 5 хвилин',`<ol class="help-list"><li><strong>Огляд школи.</strong> Покажіть кілька класів і поясніть чотири показники. Потреба в підтримці — у рядку конкретного результату.</li><li><strong>7-А · Математика.</strong> Відкрийте з «У роботі». Поточний стан: 25 із 28; у роботі три питання.</li><li><strong>Історія й дія.</strong> Перейдіть в «Історія», потім «Дія та умови». Початкові 8 із 27 — історичний сигнал.</li><li><strong>Інший клас.</strong> Відкрийте 8-Б або знайдіть 5-А у «Класах». Покажіть інший предмет і результат.</li><li><strong>Рішення.</strong> Відкрийте прострочену дію; погодьте умови й дату. Поверніться до огляду — показники зміняться.</li></ol><div class="divider"></div><p class="small muted">Усі записи, критерії та обставини умовні. Прототип показує логіку інтерфейсу; він не підключений до журналу. F — повний екран, Esc — закрити пояснення.</p><button class="button ghost" data-reset-demo>Скинути зміни демо</button>`)}
+root.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-open'))openRecord(b.dataset.open);else if(b.hasAttribute('data-class'))openClass(b.dataset.class);else if(b.hasAttribute('data-view'))navigate(b.dataset.view);else if(b.hasAttribute('data-tab')){state.detailTab=b.dataset.tab;render()}else if(b.hasAttribute('data-kpi')){state.status=state.status===b.dataset.kpi?'attention':b.dataset.kpi;state.page=1;render()}else if(b.hasAttribute('data-page')){state.page+=+b.dataset.page;render()}else if(b.hasAttribute('data-back')){const prior=(state.history||[]).pop();if(prior)Object.assign(state,prior);else state.view='overview';render()}else if(b.hasAttribute('data-reset-filters')){Object.assign(state,{grade:'all',subject:'all',status:'attention',q:'',page:1});render()}else if(b.hasAttribute('data-cohort')){state.cohort=b.dataset.cohort;render()}else if(b.hasAttribute('data-evidence'))evidence(rec(b.dataset.evidence));else if(b.hasAttribute('data-agree'))agreeForm(rec(b.dataset.agree));else if(b.hasAttribute('data-close'))closeModal();else if(b.hasAttribute('data-help'))help();else if(b.hasAttribute('data-check-mode')){state.checksMode=b.dataset.checkMode;render()}else if(b.hasAttribute('data-action-mode')){state.actionsMode=b.dataset.actionMode;render()}else if(b.hasAttribute('data-reset-demo')){reset();closeModal();toast('Демонстрацію повернуто до початкового стану')}});
+root.addEventListener('change',e=>{if(e.target.dataset.filter){state[e.target.dataset.filter]=e.target.value;state.page=1;render()}});
+root.addEventListener('input',e=>{if(e.target.dataset.filter==='q'){state.q=e.target.value;state.page=1;render()}});
+root.addEventListener('submit',e=>{if(e.target.id!=='agreeForm')return;e.preventDefault();const data=new FormData(e.target);try{approve(e.target.dataset.record,{action:data.get('action'),owner:data.get('owner'),date:data.get('date')});closeModal();render();toast('Дію погоджено в прототипі')}catch(err){toast(err.message)}});
+$('modalClose').addEventListener('click',closeModal);$('modalOverlay').addEventListener('click',e=>{if(e.target===$('modalOverlay'))closeModal()});
+async function full(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch{toast('Для повного екрана натисніть F11')}}$('fullBtn').addEventListener('click',full);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();if(e.key.toLowerCase()==='f'&&!e.ctrlKey&&!e.metaKey&&!/INPUT|TEXTAREA|SELECT/.test(e.target.tagName))full()});
+function reset(){model=JSON.parse(JSON.stringify(ORIGINAL));state={view:'overview',grade:'all',subject:'all',status:'attention',q:'',page:1,recordId:null,classId:null,detailTab:'summary',returnView:'overview',checksMode:'upcoming',actionsMode:'open',cohort:'paired'};render()}
+function validate(){const errors=[];if(model.classes.length!==25)errors.push('25 classes');if(new Set(model.classes.map(c=>c.id)).size!==25)errors.push('class ids');for(const r of model.records){if(!cls(r.classId))errors.push(r.id+' class');if(!ST[r.state])errors.push(r.id+' state');if(hasData(r)){if(r.met>r.assessed||r.assessed>cls(r.classId).size||r.met<0||r.need!==r.assessed-r.met)errors.push(r.id+' counts');if(r.date>ASOF)errors.push(r.id+' future actual')}else if(r.met!==null||r.assessed!==null||r.need!==null)errors.push(r.id+' missing');for(const p of r.paired||[])if(p.met>p.total||p.met<0||p.date>ASOF)errors.push(r.id+' paired')}const r=rec('fractions-7a');if(r.met!==25||r.assessed!==28||r.need!==3)errors.push('7a current');return {passed:errors.length===0,errors,metrics:metrics(),classes:model.classes.length,records:model.records.length}}
+const validation=validate();if(!validation.passed)throw Error('Некоректні дані: '+validation.errors.join('; '));mountIcons();render();
+window.DIRECTOR_APP={getState:()=>({...state}),getMetrics:()=>metrics(),getCase:id=>JSON.parse(JSON.stringify(rec(id))),getData:()=>JSON.parse(JSON.stringify(model)),filter:filters=>{Object.assign(state,filters,{page:1});render();return filtered().map(r=>r.id)},open:openRecord,openClass,navigate,approve:(id,values)=>{const r=approve(id,values);render();return r},validate,reset};
+})();
+</script>
+</body></html>
